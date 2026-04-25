@@ -1,13 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { Heart, Share2, Upload, User, Download } from 'lucide-react';
 import * as htmlToImage from 'html-to-image';
+import defaultBg from './default-bg.jpg';
 
 export default function App() {
   // 상태 관리
   const [time, setTime] = useState("12:00");
   const [comment, setComment] = useState("일어남");
   const [profileId, setProfileId] = useState("S2");
-  const [bgImage, setBgImage] = useState("/default-bg.jpg");
+  const [bgImage, setBgImage] = useState(defaultBg);
   const [profileImg, setProfileImg] = useState("");
   const [otherProfileImg, setOtherProfileImg] = useState("");
   const [otherComment, setOtherComment] = useState("비행운");
@@ -142,34 +143,34 @@ export default function App() {
             <div className="absolute inset-0 bg-black/15" />
 
             {/* 3. 좌상단 내 프로필 */}
-            <div className="absolute top-6 left-6 flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-300 shadow-sm border border-white/20">
-                {profileImg ? <img src={profileImg} className="w-full h-full object-cover" /> : <User className="w-full h-full p-2 text-white/70" />}
+            <div className="absolute top-4 left-4 md:top-6 md:left-6 flex items-center gap-2">
+              <div className="w-8 h-8 md:w-12 md:h-12 rounded-full overflow-hidden bg-slate-300 shadow-sm border border-white/20">
+                {profileImg ? <img src={profileImg} className="w-full h-full object-cover" /> : <User className="w-full h-full p-1 md:p-2 text-white/70" />}
               </div>
-              <span className="text-white font-bold text-lg drop-shadow-md tracking-wide">{profileId}</span>
+              <span className="text-white font-bold text-sm md:text-lg drop-shadow-md tracking-wide">{profileId}</span>
             </div>
 
             {/* 4. 중앙 시간/코멘트 */}
             <div className="absolute inset-0 flex flex-col items-center justify-center text-white select-none pointer-events-none">
-              <h1 className="text-[5.5rem] leading-none font-black tracking-tight drop-shadow-xl">{time}</h1>
-              <p className="text-xl font-medium mt-2 drop-shadow-lg opacity-90">{comment}</p>
+             <h1 className="text-5xl sm:text-6xl md:text-[5.5rem] leading-none font-black tracking-tight drop-shadow-xl">{time}</h1>
+             <p className="text-sm md:text-xl font-medium mt-1 md:mt-2 drop-shadow-lg opacity-90">{comment}</p>
             </div>
 
-            {/* 5. 우측 하단 아이콘 (위치 수정됨: top-1/2 -> bottom-6) */}
-            <div className="absolute bottom-6 right-6 flex flex-col gap-5 text-white drop-shadow-md">
-              <Share2 className="w-7 h-7" strokeWidth={2.5} />
-              <Heart className="w-7 h-7" strokeWidth={2.5} />
+            {/* 5. 우측 하단 아이콘 */}
+            <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 flex flex-col gap-3 md:gap-5 text-white drop-shadow-md">
+             <Share2 className="w-5 h-5 md:w-7 md:h-7" strokeWidth={2.5} />
+             <Heart className="w-5 h-5 md:w-7 md:h-7" strokeWidth={2.5} />
             </div>
 
             {/* 6. 좌하단 타인 댓글 */}
-            <div className="absolute bottom-6 left-6 flex items-center gap-3 pr-16"> {/* 아이콘과 안 겹치게 pr-16 추가 */}
-              <div className="w-10 h-10 min-w-[40px] rounded-full overflow-hidden bg-slate-300 shadow-md border border-white/20">
-                {otherProfileImg ? <img src={otherProfileImg} className="w-full h-full object-cover" /> : <User className="w-full h-full p-2 text-white/70" />}
-              </div>
-              <div className="bg-white text-slate-800 px-5 py-2.5 rounded-[24px] font-semibold text-sm shadow-lg truncate max-w-[300px]">
-                {otherComment}
-              </div>
+            <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 flex items-center gap-2 md:gap-3 pr-12 md:pr-16">
+             <div className="w-8 h-8 md:w-10 md:h-10 min-w-[32px] md:min-w-[40px] rounded-full overflow-hidden bg-slate-300 shadow-md border border-white/20">
+               {otherProfileImg ? <img src={otherProfileImg} className="w-full h-full object-cover" /> : <User className="w-full h-full p-1.5 md:p-2 text-white/70" />}
             </div>
+            <div className="bg-white text-slate-800 px-3 py-1.5 md:px-5 md:py-2.5 rounded-[16px] md:rounded-[24px] font-semibold text-xs md:text-sm shadow-lg truncate max-w-[180px] md:max-w-[300px]">
+              {otherComment}
+            </div>
+           </div>
 
           </div>
         </div>
