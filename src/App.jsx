@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { Heart, Share2, Upload, User, Download } from 'lucide-react';
+import { Heart, Upload, User, Download } from 'lucide-react';
+import ShareIcon from './share-icon.png';
 import * as htmlToImage from 'html-to-image';
 import defaultBg from './default-bg.jpg';
 
@@ -12,6 +13,7 @@ export default function App() {
   const [profileImg, setProfileImg] = useState("");
   const [otherProfileImg, setOtherProfileImg] = useState("");
   const [otherComment, setOtherComment] = useState("비행운");
+  const [showOtherComment, setShowOtherComment] = useState(true);
 
   // 다운로드를 위해 카드 영역을 가리킬 참조 변수
   const cardRef = useRef(null);
@@ -96,24 +98,40 @@ export default function App() {
 
           {/* 타인 댓글 설정 */}
           <section>
-            <h3 className="text-sm font-bold mb-3 text-slate-800">댓글 달기</h3>
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                 <div>
-                   <label className="block text-xs font-semibold text-slate-500 mb-1">친구 프로필 사진</label>
-                   <label className="block w-full border-2 border-dashed border-slate-300 rounded-md p-2 text-center cursor-pointer hover:bg-slate-50 transition text-sm text-slate-500">
-                     Upload
-                     <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, setOtherProfileImg)} />
-                   </label>
-                 </div>
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-slate-500 mb-1">친구 댓글</label>
-                <input type="text" value={otherComment} onChange={(e) => setOtherComment(e.target.value)} className="w-full border border-slate-300 rounded-md p-2 focus:ring-2 focus:ring-teal-400 outline-none" />
-              </div>
+            {/* 제목과 체크박스를 가로로 배치 */}
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold text-slate-800">Comments</h3>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <span className="text-xs font-semibold text-slate-500">Show</span>
+                <input 
+                  type="checkbox" 
+                  checked={showOtherComment} 
+                  onChange={(e) => setShowOtherComment(e.target.checked)}
+                  className="w-4 h-4 accent-teal-500 cursor-pointer"
+                />
+              </label>
             </div>
-          </section>
-        </div>
+  
+            {/* 👇 체크박스가 켜져 있을 때만 설정창이 보이게 감싸주기 (선택사항이지만 추천!) */}
+            {showOtherComment && (
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-500 mb-1">친구 프로필 사진</label>
+                    <label className="block w-full border-2 border-dashed border-slate-300 rounded-md p-2 text-center cursor-pointer hover:bg-slate-50 transition text-sm text-slate-500">
+                      Upload
+                      <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, setOtherProfileImg)} />
+                    </label>
+                  </div>
+               </div>
+               <div>
+                 <label className="block text-xs font-semibold text-slate-500 mb-1">친구 댓글</label>
+                 <input type="text" value={otherComment} onChange={(e) => setOtherComment(e.target.value)} className="w-full border border-slate-300 rounded-md p-2 focus:ring-2 focus:ring-teal-400 outline-none" />
+               </div>
+            < /div>
+          )}
+        </section>
+      </div>
 
         {/* ⭐️ 다운로드 버튼 추가 */}
         <div className="pt-6 mt-4 border-t border-slate-200">
@@ -158,11 +176,12 @@ export default function App() {
 
             {/* 5. 우측 하단 아이콘 */}
             <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 flex flex-col gap-3 md:gap-5 text-white drop-shadow-md">
-             <Share2 className="w-5 h-5 md:w-7 md:h-7" strokeWidth={2.5} />
+             <img src={ShareIcon} alt="Share" className="w-5 h-5 md:w-7 md:h-7 object-contain" />
              <Heart className="w-5 h-5 md:w-7 md:h-7" strokeWidth={2.5} />
             </div>
 
             {/* 6. 좌하단 타인 댓글 */}
+            {showOtherComment && (
             <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 flex items-center gap-2 md:gap-3 pr-12 md:pr-16">
              <div className="w-8 h-8 md:w-10 md:h-10 min-w-[32px] md:min-w-[40px] rounded-full overflow-hidden bg-slate-300 shadow-md border border-white/20">
                {otherProfileImg ? <img src={otherProfileImg} className="w-full h-full object-cover" /> : <User className="w-full h-full p-1.5 md:p-2 text-white/70" />}
@@ -171,6 +190,7 @@ export default function App() {
               {otherComment}
             </div>
            </div>
+            )}
 
           </div>
         </div>
